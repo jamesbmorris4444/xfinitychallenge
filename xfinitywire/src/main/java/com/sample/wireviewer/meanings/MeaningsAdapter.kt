@@ -5,15 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.sample.commonlibrary.R
-import com.sample.commonlibrary.databinding.MeaningsListItemBinding
-import com.sample.commonlibrary.meanings.MeaningsItemViewModel
 import com.sample.commonlibrary.recyclerview.RecyclerViewFilterAdapter
-import com.sample.commonlibrary.repository.storage.Meaning
 import com.sample.commonlibrary.ui.UIViewModel
-import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
-import com.sample.commonlibrary.utils.ViewModelInjectorModule
 import com.sample.wireviewer.activity.Callbacks
+import com.sample.wireviewer.activity.R
+import com.sample.wireviewer.activity.databinding.MeaningsListItemBinding
+import com.sample.wireviewer.repository.storage.Meaning
+import com.sample.wireviewer.utils.DaggerViewModelDependencyInjector
+import com.sample.wireviewer.utils.ViewModelInjectorModule
 import javax.inject.Inject
 
 
@@ -26,9 +25,9 @@ class MeaningsAdapter(private val callbacks: Callbacks) : RecyclerViewFilterAdap
 
     init {
         DaggerViewModelDependencyInjector.builder()
-            .viewModelInjectorModule(ViewModelInjectorModule(callbacks.fetchActivity()))
-            .build()
-            .inject(this)
+                .viewModelInjectorModule(ViewModelInjectorModule(callbacks.fetchActivity()))
+                .build()
+                .inject(this)
     }
 
     override fun getFilter(): AdapterFilter {

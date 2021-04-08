@@ -10,13 +10,13 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.sample.commonlibrary.ui.UIViewModel
-import com.sample.commonlibrary.utils.Constants
-import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
-import com.sample.commonlibrary.utils.ViewModelInjectorModule
 import com.sample.simpsonsviewer.activity.Callbacks
 import com.sample.simpsonsviewer.activity.MainActivity
 import com.sample.simpsonsviewer.activity.R
 import com.sample.simpsonsviewer.activity.databinding.MeaningsFragmentBinding
+import com.sample.simpsonsviewer.utils.Constants
+import com.sample.simpsonsviewer.utils.DaggerViewModelDependencyInjector
+import com.sample.simpsonsviewer.utils.ViewModelInjectorModule
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 

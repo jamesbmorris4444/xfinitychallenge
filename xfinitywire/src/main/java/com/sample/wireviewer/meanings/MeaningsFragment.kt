@@ -9,16 +9,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.sample.commonlibrary.R
-import com.sample.commonlibrary.databinding.MeaningsFragmentBinding
-import com.sample.commonlibrary.meanings.MeaningsListViewModel
-import com.sample.commonlibrary.meanings.MeaningsListViewModelFactory
 import com.sample.commonlibrary.ui.UIViewModel
-import com.sample.commonlibrary.utils.Constants
-import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
-import com.sample.commonlibrary.utils.ViewModelInjectorModule
 import com.sample.wireviewer.activity.Callbacks
 import com.sample.wireviewer.activity.MainActivity
+import com.sample.wireviewer.activity.R
+import com.sample.wireviewer.activity.databinding.MeaningsFragmentBinding
+import com.sample.wireviewer.utils.Constants
+import com.sample.wireviewer.utils.DaggerViewModelDependencyInjector
+import com.sample.wireviewer.utils.ViewModelInjectorModule
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 

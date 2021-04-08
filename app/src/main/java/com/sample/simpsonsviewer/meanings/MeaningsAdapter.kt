@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.sample.commonlibrary.recyclerview.RecyclerViewFilterAdapter
-import com.sample.commonlibrary.repository.storage.Meaning
 import com.sample.commonlibrary.ui.UIViewModel
-import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
-import com.sample.commonlibrary.utils.ViewModelInjectorModule
 import com.sample.simpsonsviewer.activity.Callbacks
 import com.sample.simpsonsviewer.activity.R
 import com.sample.simpsonsviewer.activity.databinding.MeaningsListItemBinding
+import com.sample.simpsonsviewer.repository.storage.Meaning
+import com.sample.simpsonsviewer.utils.DaggerViewModelDependencyInjector
+import com.sample.simpsonsviewer.utils.ViewModelInjectorModule
 import javax.inject.Inject
 
 

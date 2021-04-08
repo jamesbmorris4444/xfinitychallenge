@@ -3,8 +3,8 @@ package com.sample.simpsonsviewer.meanings
 import android.view.View
 import androidx.databinding.ObservableField
 import com.sample.commonlibrary.recyclerview.RecyclerViewItemViewModel
-import com.sample.commonlibrary.repository.storage.Meaning
 import com.sample.simpsonsviewer.activity.Callbacks
+import com.sample.simpsonsviewer.repository.storage.Meaning
 
 
 class MeaningsItemViewModel(private val callbacks: Callbacks) : RecyclerViewItemViewModel<Meaning>() {
