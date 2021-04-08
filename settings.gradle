@@ -1,0 +1,4 @@
+include ':commonlibrary'
+include ':xfinitywire'
+include ':app'
+rootProject.name = "Simpsons Character Viewer"

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <data>
+        <variable
+                name="uiViewModel"
+                type="com.sample.commonlibrary.ui.UIViewModel" />
+        <variable
+                name="meaningsItemViewModel"
+                type="com.sample.wireviewer.meanings.MeaningsItemViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/meanings_item_root_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <android.widget.TextView
+            android:id="@+id/word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@{meaningsItemViewModel.name}"
+            app:text_font="@{uiViewModel.meaningsItemTextTypeface}"
+            app:text_color="@{uiViewModel.meaningsItemTextColor}"
+            app:text_size="@{safeUnbox(uiViewModel.meaningsItemTextSize)}"
+            app:layout_marginLeft="@{safeUnbox(uiViewModel.standardLeftAndRightMargin)}"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/definition"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <android.widget.TextView
+            android:id="@+id/definition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@{meaningsItemViewModel.stargazersCount}"
+            app:text_font="@{uiViewModel.meaningsItemTextTypeface}"
+            app:text_color="@{uiViewModel.meaningsItemTextColor}"
+            app:text_size="@{safeUnbox(uiViewModel.meaningsItemTextSize)}"
+            app:layout_marginLeft="@{safeUnbox(uiViewModel.standardLeftAndRightMargin)}"
+            app:layout_constraintTop_toBottomOf="@+id/word"
+            app:layout_constraintBottom_toTopOf="@+id/url"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <android.widget.TextView
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="@{(view) -> meaningsItemViewModel.onUrlClicked(view)}"
+            android:text="@{meaningsItemViewModel.htmlUrl}"
+            app:text_font="@{uiViewModel.wordItemTextTypeface}"
+            app:text_color="@{uiViewModel.wordItemTextColor}"
+            app:text_size="@{safeUnbox(uiViewModel.wordItemTextSize)}"
+            app:layout_marginLeft="@{safeUnbox(uiViewModel.standardLeftAndRightMargin)}"
+            app:layout_constraintTop_toBottomOf="@+id/definition"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
