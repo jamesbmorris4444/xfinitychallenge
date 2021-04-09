@@ -6,6 +6,8 @@ object Constants {
 
     lateinit var TARGET_URL: String
     lateinit var BASE: String
+    var IMAGE_WIDTH = 0
+    var IMAGE_HEIGHT = 0
 
     const val URBANDICT_ARRAY_DATA_TAG = "list"
     const val ROOT_FRAGMENT_TAG = "root fragment"

@@ -4,20 +4,25 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.ActivityInfo
 import android.graphics.Color
+import android.graphics.Point
 import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.*
+import android.telephony.TelephonyManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableField
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.sample.commonlibrary.activity.databinding.ActivityMainBinding
@@ -34,7 +39,9 @@ import com.sample.commonlibrary.utils.Constants
 import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
 import com.sample.commonlibrary.utils.ViewModelInjectorModule
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 
@@ -49,6 +56,7 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
     private var thumbsStatusMenuItem: MenuItem? = null
     private lateinit var meaningsFragment: MeaningsFragment
     private lateinit var individualFragment: IndividualFragment
+    val imageHeight: ObservableField<Int> = ObservableField(0)
 
     enum class UITheme {
         LIGHT, DARK, NOT_ASSIGNED,
@@ -68,6 +76,8 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
         activityMainBinding.uiViewModel = uiViewModel
         activityMainBinding.mainActivity = this
         setSupportActionBar(toolbar)
+        setTabletScreens()
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { meaningsFragment.meaningsListViewModel.backPressed() }
         lottieBackgroundView = main_background_lottie
@@ -78,6 +88,13 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
             currentTheme = UITheme.valueOf(name)
         }
         serviceProgressBar = service_progresss_bar
+    }
+
+    private fun setTabletScreens() {
+        val display = windowManager.defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        imageHeight.set(size.y / 2)
     }
 
     // Start Service
@@ -195,19 +212,39 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
 
     private fun loadMeaningsFragment() {
         meaningsFragment = MeaningsFragment.newInstance()
+        val container: Int
+        val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        if (Objects.requireNonNull(manager).phoneType == TelephonyManager.PHONE_TYPE_NONE) {
+            fetchRootView().main_activity_container.visibility = View.GONE
+            fetchRootView().upper_lower_root.visibility = View.VISIBLE
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            container = R.id.main_activity_top_container
+        } else {
+            fetchRootView().main_activity_container.visibility = View.VISIBLE
+            fetchRootView().upper_lower_root.visibility = View.GONE
+            container = R.id.main_activity_container
+        }
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left)
-            .replace(R.id.main_activity_container, meaningsFragment, Constants.ROOT_FRAGMENT_TAG)
+            .replace(container, meaningsFragment, Constants.ROOT_FRAGMENT_TAG)
             .commitAllowingStateLoss()
     }
 
     fun loadIndividualFragment(name: String, url: String, description: String) {
         individualFragment = IndividualFragment.newInstance(name, url, description)
+        val container: Int
+        val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        if (Objects.requireNonNull(manager).phoneType == TelephonyManager.PHONE_TYPE_NONE) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            container = R.id.main_activity_bottom_container
+        } else {
+            container = R.id.main_activity_container
+        }
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left)
-            .replace(R.id.main_activity_container, individualFragment, Constants.ROOT_FRAGMENT_TAG)
+            .replace(container, individualFragment, Constants.ROOT_FRAGMENT_TAG)
             .addToBackStack(null)
             .commitAllowingStateLoss()
     }

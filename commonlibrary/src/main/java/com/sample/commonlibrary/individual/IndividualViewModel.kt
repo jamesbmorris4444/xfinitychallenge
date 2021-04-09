@@ -32,8 +32,8 @@ class IndividualViewModel(private val callbacks: Callbacks) : AndroidViewModel(c
     lateinit var description: String
     val individualText: ObservableField<String> = ObservableField("")
     val descText: ObservableField<String> = ObservableField("")
-    val imageWidth: ObservableField<Int> = ObservableField(400)
-    val imageHeight: ObservableField<Int> = ObservableField(600)
+    val imageWidth: ObservableField<Int> = ObservableField(Constants.IMAGE_WIDTH)
+    val imageHeight: ObservableField<Int> = ObservableField(Constants.IMAGE_HEIGHT)
     val backupImage: ObservableField<Drawable> = ObservableField()
     val imageVisibility: ObservableField<Int> = ObservableField(View.VISIBLE)
     val backupVisibility: ObservableField<Int> = ObservableField(View.GONE)
