@@ -19,7 +19,7 @@ object APIClient {
                     ), String.format("okHttp logging interceptor=%s", message))
                 }
             })
-            interceptor.level = HttpLoggingInterceptor.Level.BASIC  // BASIC or BODY
+            interceptor.level = HttpLoggingInterceptor.Level.BODY  // BASIC or BODY
             val client = OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .build()
@@ -29,6 +29,9 @@ object APIClient {
                     MeaningsJsonDeserializer()
                 )
                 .create()
+            LogUtils.D(APIClient::class.java.simpleName, LogUtils.FilterTags.withTags(
+                    LogUtils.TagFilter.API
+            ), String.format("wire"))
             val builder = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

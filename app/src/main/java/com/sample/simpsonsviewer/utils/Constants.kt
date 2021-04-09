@@ -7,7 +7,7 @@ object Constants {
     const val URBANDICT_ARRAY_DATA_TAG = "list"
     const val ROOT_FRAGMENT_TAG = "root fragment"
     val URBANDICT_LIST_CLASS_TYPE = (ArrayList<Meaning>()).javaClass
-    const val URBANDICT_BASE_URL = "https://api.github.com/"
+    const val URBANDICT_BASE_URL = "https://api.duckduckgo.com/?q=simpsons+characters&format=json"
     const val URBANDICT_RAPID_API_HOST = "x-rapidapi-host: mashape-community-urban-dictionary.p.rapidapi.com"
     const val URBANDICT_RAPID_API_KEY = "x-rapidapi-key: f674a66b81msh663e5810b0cdd7ep162635jsnb30c4b837dd9"
     const val URBANDICT_TERM = "user"
@@ -20,6 +20,6 @@ object Constants {
     const val EDIT_TEXT_TO_BUTTON_RATIO = 3  // 3:1
     const val URBANDICT_TITLE = "Urban Dictionary Results"
     const val PER_PAGE = "per_page"
-    const val PAGE = "page"
-    const val DIRECTION = "direction"
+    const val Q = "q"
+    const val FORMAT = "format"
 }

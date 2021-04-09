@@ -97,25 +97,25 @@ class MeaningsListViewModel(private val callbacks: Callbacks) : RecyclerViewView
             Utils.hideKeyboard(view)
             val progressBar = callbacks.fetchActivity().getMainProgressBar()
             progressBar.visibility = View.VISIBLE
-            repository.getUrbanDictionaryMeanings(enteredText, this::showMeanings)
+            repository.getUrbanDictionaryMeanings(this::showMeanings)
         }
     }
 
-    private fun showMeanings(meaningsList: List<Meaning>) {
+    private fun showMeanings(meanings: List<Meaning>) {
         val progressBar = callbacks.fetchActivity().getMainProgressBar()
         progressBar.visibility = View.GONE
-        if (meaningsList?.isEmpty()) {
+        if (meanings.isEmpty()) {
             listIsVisible.set(View.GONE)
             errorIsVisible.set(View.VISIBLE)
         } else {
             listIsVisible.set(View.VISIBLE)
             errorIsVisible.set(View.GONE)
-            val fullList = meaningsList.sortedByDescending { meaning -> Utils.stargazerComparison(meaning) }
-            val smallList: MutableList<Meaning> = mutableListOf()
-            for (index in 0 until kotlin.math.min(fullList.size, 3)) {
-                smallList.add(fullList[index])
-            }
-            adapter.addAll(smallList)
+//            val fullList = meanings.sortedByDescending { meaning -> Utils.stargazerComparison(meaning) }
+//            val smallList: MutableList<Meaning> = mutableListOf()
+//            for (index in 0 until kotlin.math.min(fullList.size, 3)) {
+//                smallList.add(fullList[index])
+//            }
+            adapter.addAll(meanings)
         }
     }
 

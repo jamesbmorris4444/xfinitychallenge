@@ -9,18 +9,18 @@ import com.sample.wireviewer.repository.storage.Meaning
 
 class MeaningsItemViewModel(private val callbacks: Callbacks) : RecyclerViewItemViewModel<Meaning>() {
 
-    val name: ObservableField<String> = ObservableField("")
-    val stargazersCount: ObservableField<String> = ObservableField("")
-    val htmlUrl: ObservableField<String> = ObservableField("")
+    val firstUrl: ObservableField<String> = ObservableField("")
+    val icon: ObservableField<String> = ObservableField("")
+    val result: ObservableField<String> = ObservableField("")
 
     override fun setItem(item: Meaning) {
-        name.set("Name: ${item.name}")
-        stargazersCount.set("Stars: ${item.stargazersCount}")
-        htmlUrl.set(item.htmlUrl)
+        firstUrl.set("FirstUrl: ${item.firstUrl}")
+        icon.set("Icon: ${item.icon.url}")
+        result.set(item.result)
     }
 
     fun onUrlClicked(view: View) {
-        htmlUrl.get()?.let {
+        result.get()?.let {
             callbacks.fetchmeaningsListViewModel().onUrlClicked(view, it)
         }
     }

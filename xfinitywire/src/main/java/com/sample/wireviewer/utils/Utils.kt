@@ -28,9 +28,7 @@ class Utils {
             return 0
         }
 
-        fun stargazerComparison(meaning: Meaning): Int {
-            return meaning.stargazersCount
-        }
+
 
         fun newPatternOfSubpatterns(patternOfSubpatterns: String, index: Int, newPattern: String): String {
             // patternOfSubpatterns = P|P|P|...|P

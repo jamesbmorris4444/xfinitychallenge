@@ -7,9 +7,11 @@ import com.sample.wireviewer.modal.StandardModal
 import com.sample.wireviewer.repository.network.APIClient
 import com.sample.wireviewer.repository.network.APIInterface
 import com.sample.wireviewer.repository.storage.Meaning
+import com.sample.wireviewer.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.util.concurrent.TimeUnit
 
 class Repository(private val callbacks: Callbacks) {
@@ -18,19 +20,26 @@ class Repository(private val callbacks: Callbacks) {
 
     fun getUrbanDictionaryMeanings(term: String, showMeanings: (meaningsList: List<Meaning>) -> Unit) {
         var disposable: Disposable? = null
-        disposable = meaningsService.getMeanings(term, 100, 1, "asc")
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .timeout(15L, TimeUnit.SECONDS)
-            .subscribe ({ meaningsResponse ->
-                disposable?.dispose()
-                showMeanings(meaningsResponse)
-            },
-            { throwable ->
-                disposable?.dispose()
-                showMeanings(listOf())
-                getUrbanDictionaryMeaningsFailure(callbacks.fetchActivity(),"getUrbanDictionaryMeanings", throwable)
-            })
+        val url = Constants.URBANDICT_BASE_URL.toHttpUrlOrNull()
+        url?.let {
+            disposable = meaningsService.getMeanings(it)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .timeout(15L, TimeUnit.SECONDS)
+                .subscribe({ header ->
+                    disposable?.dispose()
+                    showMeanings(header.relatedTopics)
+                },
+                    { throwable ->
+                        disposable?.dispose()
+                        showMeanings(listOf())
+                        getUrbanDictionaryMeaningsFailure(
+                            callbacks.fetchActivity(),
+                            "getUrbanDictionaryMeanings",
+                            throwable
+                        )
+                    })
+        }
     }
 
     private fun getUrbanDictionaryMeaningsFailure(activity: MainActivity, method: String, throwable: Throwable) {
