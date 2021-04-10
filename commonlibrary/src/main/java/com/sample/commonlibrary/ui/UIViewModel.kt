@@ -162,9 +162,8 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
     var standardButtonHeight: ObservableField<Int> = ObservableField(0)
     var standardLargeButtonWidth: ObservableField<Int> = ObservableField(0)
     var editTextDisplayModifyHintStyle = 0
-
-    private val applicationContext: Context = getApplication<Application>().applicationContext
-    val modalErrorIcon: Drawable? = ContextCompat.getDrawable(applicationContext, R.drawable.mo_close_error)
+    
+    val modalErrorIcon: Drawable? = ContextCompat.getDrawable(getApplication<Application>().applicationContext, R.drawable.mo_close_error)
 
     @Inject
     lateinit var colorMapper: ColorMapper
@@ -177,7 +176,7 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
         set(value) {
             if (value != currentTheme) {
                 LogUtils.D(TAG, LogUtils.FilterTags.withTags(LogUtils.TagFilter.THM), String.format("LOAD THEME for %s  ->  %s", currentTheme.name, value.name))
-                val settings = applicationContext.getSharedPreferences("THEME", Context.MODE_PRIVATE)
+                val settings = getApplication<Application>().applicationContext.getSharedPreferences("THEME", Context.MODE_PRIVATE)
                 val editor = settings.edit()
                 editor.putString("THEME", value.name)
                 editor.apply()
@@ -229,14 +228,14 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
     }
 
     private fun convertDpToPixels(dp: Float): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, applicationContext.resources.displayMetrics).toInt()
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getApplication<Application>().applicationContext.resources.displayMetrics).toInt()
     }
 
     private fun computeStandardInternalWidth(): Int {
         // |<--standard margin-->|<--standard margin-->|<--standard internal width-->|<--standard margin-->|<--standard margin-->|
         // |<---------------------------------------------------total width----------------------------------------------------->|
 
-        val screenWidth = applicationContext.resources.displayMetrics.widthPixels
+        val screenWidth = getApplication<Application>().applicationContext.resources.displayMetrics.widthPixels
         return screenWidth - 4 * convertDpToPixels(Constants.STANDARD_LEFT_AND_RIGHT_MARGIN)
     }
 
@@ -244,7 +243,7 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
         // |<--edit text small margin-->|<--edit text small width-->|<--edit text small margin-->|
         // |<--------------------------standard width / 2--------------------------------------->|
 
-        val screenWidth = applicationContext.resources.displayMetrics.widthPixels
+        val screenWidth = getApplication<Application>().applicationContext.resources.displayMetrics.widthPixels
         val standardWidthDivideBy2 = (screenWidth - 2 * convertDpToPixels(Constants.STANDARD_LEFT_AND_RIGHT_MARGIN)) / 2
         return standardWidthDivideBy2 - 2 * convertDpToPixels(Constants.STANDARD_EDIT_TEXT_SMALL_MARGIN)
     }
@@ -253,7 +252,7 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
         // |<--standard margin-->|<--standard width-->|<--standard margin-->|
         // |<-----------------------total width---------------------------->|
 
-        val screenWidth = applicationContext.resources.displayMetrics.widthPixels
+        val screenWidth = getApplication<Application>().applicationContext.resources.displayMetrics.widthPixels
         return screenWidth - 2 * convertDpToPixels(Constants.STANDARD_LEFT_AND_RIGHT_MARGIN)
     }
 
@@ -261,7 +260,7 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
         // |<--standard margin-->|<--standard width with button_light-->|<--standard margin-->|<--standard button_light width-->|<--standard margin-->|
         // |<----------------------------------------------------total width------------------------------------------------------------->|
 
-        val screenWidth = applicationContext.resources.displayMetrics.widthPixels
+        val screenWidth = getScreenWidth()
         val standardMargin = convertDpToPixels(Constants.STANDARD_LEFT_AND_RIGHT_MARGIN)
         val totalButtonWidth = screenWidth - 3 * standardMargin
         return totalButtonWidth * Constants.EDIT_TEXT_TO_BUTTON_RATIO / (Constants.EDIT_TEXT_TO_BUTTON_RATIO + 1)
@@ -271,10 +270,18 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
         // |<--standard margin-->|<--standard width with button_light-->|<--standard margin-->|<--standard button_light width-->|<--standard margin-->|
         // |<----------------------------------------------------total width------------------------------------------------------------->|
 
-        val screenWidth = applicationContext.resources.displayMetrics.widthPixels
+        val screenWidth = getScreenWidth()
         val standardMargin = convertDpToPixels(Constants.STANDARD_LEFT_AND_RIGHT_MARGIN)
         val totalButtonWidth = screenWidth - 3 * standardMargin
         return totalButtonWidth / (Constants.EDIT_TEXT_TO_BUTTON_RATIO + 1)
+    }
+    
+    private fun getScreenWidth(): Int {
+        return if (Utils.isTablet(getApplication<Application>().applicationContext)) {
+            getApplication<Application>().applicationContext.resources.displayMetrics.widthPixels / 2
+        } else {
+            getApplication<Application>().applicationContext.resources.displayMetrics.widthPixels
+        }
     }
 
     private fun themeSwitcher(theme: MainActivity.UITheme) {
@@ -291,11 +298,11 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
             primaryColor = colorMapper.map(theme, uiDataClass.primaryColor)
             secondaryColor = colorMapper.map(theme, uiDataClass.secondaryColor)
             toolbarTextColor = colorMapper.map(theme, uiDataClass.toolbarTextColor)
-            standardBackground.set(ContextCompat.getDrawable(applicationContext, uiDataClass.standardBackground))
+            standardBackground.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.standardBackground))
             backgroundLottieJsonFileName = uiDataClass.backgroundLottieJsonFileName
             backgroundVisibleForLottie.set(backgroundLottieJsonFileName.isNotEmpty())
-            standardDialogBackground.set(ContextCompat.getDrawable(applicationContext, uiDataClass.standardDialogBackground))
-            standardDialogDashedLine.set(ContextCompat.getDrawable(applicationContext, uiDataClass.standardDialogDashedLine))
+            standardDialogBackground.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.standardDialogBackground))
+            standardDialogDashedLine.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.standardDialogDashedLine))
             standardDialogDividerColor.set(colorMapper.map(theme, uiDataClass.standardDialogDividerColor))
             standardDialogPasswordHintColor.set(colorMapper.map(theme, uiDataClass.standardDialogPasswordHintColor))
             standardDialogTopSpacerHeight.set(convertDpToPixels(uiDataClass.standardDialogTopSpacerHeight))
@@ -351,11 +358,11 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
             editTextTypeface.set(typefaceMapper.map(theme, uiDataClass.editTextSize))
             editTextUpperHintColor.set(colorMapper.map(theme, uiDataClass.editTextUpperHintColor))
             editTextLowerHintColor.set(colorMapper.map(theme, uiDataClass.editTextLowerHintColor))
-            editTextBackground.set(ContextCompat.getDrawable(applicationContext, uiDataClass.editTextBackground))
+            editTextBackground.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.editTextBackground))
             editTextBackgroundResInt.set(uiDataClass.editTextBackground)
 
-            buttonDrawable.set(ContextCompat.getDrawable(applicationContext, uiDataClass.buttonDrawable)?.mutate())
-            largeButtonDrawable.set(ContextCompat.getDrawable(applicationContext, uiDataClass.buttonDrawable)?.mutate())
+            buttonDrawable.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.buttonDrawable)?.mutate())
+            largeButtonDrawable.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.buttonDrawable)?.mutate())
             buttonTextColor.set(colorMapper.map(theme, uiDataClass.buttonTextColor))
             buttonTextSize.set(textSizeMapper.map(theme, uiDataClass.buttonTextSize))
             buttonTextTypeface.set(typefaceMapper.map(theme, uiDataClass.buttonTextSize))
@@ -373,23 +380,23 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
             largeErrorTextTypeface.set(typefaceMapper.map(theme, uiDataClass.largeErrorTextSize))
 
             radioButtonColor.set(colorMapper.map(theme, uiDataClass.radioButtonColor))
-            dropdownBackground.set(ContextCompat.getDrawable(applicationContext, uiDataClass.dropdownBackground))
+            dropdownBackground.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.dropdownBackground))
 
             productItemTextColor.set(colorMapper.map(theme, uiDataClass.productItemTextColor))
             productItemTextSize.set(textSizeMapper.map(theme, uiDataClass.productItemTextSize))
             productItemTextTypeface.set(typefaceMapper.map(theme, uiDataClass.productItemTextSize))
 
-            productGridBackgroundDrawable11.set(ContextCompat.getDrawable(applicationContext, uiDataClass.productGridBackgroundDrawable11))
-            productGridBackgroundDrawable12.set(ContextCompat.getDrawable(applicationContext, uiDataClass.productGridBackgroundDrawable12))
-            productGridBackgroundDrawable21.set(ContextCompat.getDrawable(applicationContext, uiDataClass.productGridBackgroundDrawable21))
-            productGridBackgroundDrawable22.set(ContextCompat.getDrawable(applicationContext, uiDataClass.productGridBackgroundDrawable22))
+            productGridBackgroundDrawable11.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.productGridBackgroundDrawable11))
+            productGridBackgroundDrawable12.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.productGridBackgroundDrawable12))
+            productGridBackgroundDrawable21.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.productGridBackgroundDrawable21))
+            productGridBackgroundDrawable22.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.productGridBackgroundDrawable22))
 
             editTextProductHintColor.set(colorMapper.map(theme, uiDataClass.editTextProductHintColor))
             editTextProductColor.set(colorMapper.map(theme, uiDataClass.editTextProductColor))
             editTextAboRhProductColor.set(colorMapper.map(theme, uiDataClass.editTextAboRhProductColor))
             editTextProductSize.set(textSizeMapper.map(theme, uiDataClass.editTextProductSize))
             editTextProductTypeface.set(typefaceMapper.map(theme, uiDataClass.editTextProductSize))
-            editTextProductBackground.set(ContextCompat.getDrawable(applicationContext, uiDataClass.editTextProductBackground))
+            editTextProductBackground.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.editTextProductBackground))
 
             productIdTextColor.set(colorMapper.map(theme, uiDataClass.productIdTextColor))
             productIdTextSize.set(textSizeMapper.map(theme, uiDataClass.productIdTextSize))
@@ -403,8 +410,8 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
             dropdownTextSize.set(textSizeMapper.map(theme, uiDataClass.dropdownTextSize))
             dropdownTextTypeface.set(typefaceMapper.map(theme, uiDataClass.dropdownTextSize))
 
-            thumbsUp.set(ContextCompat.getDrawable(applicationContext, uiDataClass.thumbsUp))
-            thumbsDown.set(ContextCompat.getDrawable(applicationContext, uiDataClass.thumbsDown))
+            thumbsUp.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.thumbsUp))
+            thumbsDown.set(ContextCompat.getDrawable(getApplication<Application>().applicationContext, uiDataClass.thumbsDown))
         }
     }
 

@@ -57,6 +57,7 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
     private lateinit var charactersFragment: CharactersFragment
     private lateinit var individualFragment: IndividualFragment
     val imageHeight: ObservableField<Int> = ObservableField(0)
+    val imageWidth: ObservableField<Int> = ObservableField(0)
 
     enum class UITheme {
         LIGHT, DARK, NOT_ASSIGNED,
@@ -95,6 +96,7 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
         val size = Point()
         display.getSize(size)
         imageHeight.set(size.y / 2)
+        imageWidth.set(size.x / 2)
     }
 
     // Start Service
@@ -140,6 +142,7 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
         val intent = Intent(this, LongRunningService::class.java)
         startService(intent)
         bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        loadCharactersFragment()
     }
 
     override fun onStop() {
@@ -214,13 +217,22 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
         charactersFragment = CharactersFragment.newInstance()
         val container: Int
         if (Utils.isTablet(this)) {
-            fetchRootView().main_activity_container.visibility = View.GONE
-            fetchRootView().upper_lower_root.visibility = View.VISIBLE
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            container = R.id.main_activity_top_container
+            if (Utils.isPortrait(this)) {
+                fetchRootView().main_activity_container.visibility = View.GONE
+                fetchRootView().upper_lower_root.visibility = View.VISIBLE
+                fetchRootView().left_right_root.visibility = View.GONE
+                container = R.id.main_activity_top_container
+            } else {
+                fetchRootView().main_activity_container.visibility = View.GONE
+                fetchRootView().upper_lower_root.visibility = View.GONE
+                fetchRootView().left_right_root.visibility = View.VISIBLE
+                container = R.id.main_activity_left_container
+            }
         } else {
             fetchRootView().main_activity_container.visibility = View.VISIBLE
             fetchRootView().upper_lower_root.visibility = View.GONE
+            fetchRootView().left_right_root.visibility = View.GONE
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             container = R.id.main_activity_container
         }
         supportFragmentManager
@@ -234,17 +246,26 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
         individualFragment = IndividualFragment.newInstance(name, url, description)
         val container: Int
         if (Utils.isTablet(this)) {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            container = R.id.main_activity_bottom_container
+            if (Utils.isPortrait(this)) {
+                container = R.id.main_activity_bottom_container
+            } else {
+                container = R.id.main_activity_right_container
+            }
+            supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_right, R.anim.exit_to_left)
+                .replace(container, individualFragment, Constants.ROOT_FRAGMENT_TAG)
+                .commitAllowingStateLoss()
         } else {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             container = R.id.main_activity_container
+            supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_right, R.anim.exit_to_left)
+                .replace(container, individualFragment, Constants.ROOT_FRAGMENT_TAG)
+                .addToBackStack(null)
+                .commitAllowingStateLoss()
         }
-        supportFragmentManager
-            .beginTransaction()
-            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_right, R.anim.exit_to_left)
-            .replace(container, individualFragment, Constants.ROOT_FRAGMENT_TAG)
-            .addToBackStack(null)
-            .commitAllowingStateLoss()
     }
 
     private fun setupToolbar() {
