@@ -132,7 +132,11 @@ class CharactersListViewModel(private val callbacks: Callbacks) : RecyclerViewVi
         if (Utils.isTablet(callbacks.fetchActivity())) {
             callbacks.fetchActivity().onBackPressed()
         } else {
-            callbacks.fetchActivity().supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            if (callbacks.fetchActivity().supportFragmentManager.backStackEntryCount == 0) {
+                callbacks.fetchActivity().onBackPressed()
+            } else {
+                callbacks.fetchActivity().supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            }
         }
     }
 
