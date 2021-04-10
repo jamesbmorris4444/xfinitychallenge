@@ -3,6 +3,7 @@ package com.sample.commonlibrary.utils
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.sample.commonlibrary.activity.R
 import com.sample.commonlibrary.repository.storage.Character
 
 class Utils {
@@ -18,6 +19,10 @@ class Utils {
             if (view == null) return
             val inputManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.showSoftInput(view, InputMethodManager.SHOW_FORCED)
+        }
+
+        fun isTablet(context: Context): Boolean {
+            return context.resources.getBoolean(R.bool.isTablet)
         }
 
         fun donorComparisonByThumbsUp(character: Character): Int {

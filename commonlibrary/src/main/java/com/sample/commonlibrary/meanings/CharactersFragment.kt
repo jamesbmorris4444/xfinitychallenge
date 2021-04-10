@@ -17,6 +17,7 @@ import com.sample.commonlibrary.individual.IndividualViewModel
 import com.sample.commonlibrary.ui.UIViewModel
 import com.sample.commonlibrary.utils.Constants
 import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
+import com.sample.commonlibrary.utils.Utils
 import com.sample.commonlibrary.utils.ViewModelInjectorModule
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -48,6 +49,7 @@ class CharactersFragment : Fragment(), Callbacks {
         super.onResume()
         (activity as MainActivity).toolbar.title = Constants.CHARACTERS_TITLE
         charactersListViewModel.initialize(binding.root)
+        Utils.hideKeyboard(fetchRootView())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

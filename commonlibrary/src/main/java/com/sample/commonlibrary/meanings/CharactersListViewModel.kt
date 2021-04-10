@@ -1,8 +1,6 @@
 package com.sample.commonlibrary.characters
 
 import android.app.Application
-import android.content.Context
-import android.telephony.TelephonyManager
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.fragment.app.FragmentManager
@@ -22,7 +20,6 @@ import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
 import com.sample.commonlibrary.utils.Utils
 import com.sample.commonlibrary.utils.ViewModelInjectorModule
 import com.spample.commonlibrary.recyclerview.RecyclerViewViewModel
-import java.util.*
 import javax.inject.Inject
 
 class CharactersListViewModelFactory(private val callbacks: Callbacks) : ViewModelProvider.Factory {
@@ -70,7 +67,7 @@ class CharactersListViewModel(private val callbacks: Callbacks) : RecyclerViewVi
         val textInputLayout: TextInputLayout = view.findViewById(R.id.edit_text_input_name)
         val textInputEditText: TextInputEditText = view.findViewById(R.id.edit_text_input_name_editText)
         textInputLayout.setHintTextAppearance(uiViewModel.editTextDisplayModifyHintStyle)
-        textInputEditText.requestFocus()
+        //textInputEditText.requestFocus()
         Utils.showKeyboard(textInputEditText)
     }
 
@@ -116,6 +113,7 @@ class CharactersListViewModel(private val callbacks: Callbacks) : RecyclerViewVi
         allCharacters = characters
     }
     fun onElementClicked(view: View) {
+        Utils.hideKeyboard(view)
         val character = view.tag as Character
         callbacks.fetchActivity().loadIndividualFragment(basename(character.firstUrl), "${Constants.BASE}${character.icon.url}", strip(character.result))
     }
@@ -131,8 +129,7 @@ class CharactersListViewModel(private val callbacks: Callbacks) : RecyclerViewVi
     }
 
     fun backPressed() {
-        val manager = callbacks.fetchActivity().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (Objects.requireNonNull(manager).phoneType == TelephonyManager.PHONE_TYPE_NONE) {
+        if (Utils.isTablet(callbacks.fetchActivity())) {
             callbacks.fetchActivity().onBackPressed()
         } else {
             callbacks.fetchActivity().supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)

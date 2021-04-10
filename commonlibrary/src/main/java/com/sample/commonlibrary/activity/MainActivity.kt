@@ -11,7 +11,6 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.*
-import android.telephony.TelephonyManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -37,6 +36,7 @@ import com.sample.commonlibrary.services.ServiceCallbacks
 import com.sample.commonlibrary.ui.UIViewModel
 import com.sample.commonlibrary.utils.Constants
 import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
+import com.sample.commonlibrary.utils.Utils
 import com.sample.commonlibrary.utils.ViewModelInjectorModule
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -206,15 +206,14 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
 
     private fun loadInitialFragment() {
         if (supportFragmentManager.findFragmentByTag(Constants.ROOT_FRAGMENT_TAG) == null) {
-            loadMeaningsFragment()
+            loadCharactersFragment()
         }
     }
 
-    private fun loadMeaningsFragment() {
+    private fun loadCharactersFragment() {
         charactersFragment = CharactersFragment.newInstance()
         val container: Int
-        val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (Objects.requireNonNull(manager).phoneType == TelephonyManager.PHONE_TYPE_NONE) {
+        if (Utils.isTablet(this)) {
             fetchRootView().main_activity_container.visibility = View.GONE
             fetchRootView().upper_lower_root.visibility = View.VISIBLE
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -234,8 +233,7 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
     fun loadIndividualFragment(name: String, url: String, description: String) {
         individualFragment = IndividualFragment.newInstance(name, url, description)
         val container: Int
-        val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (Objects.requireNonNull(manager).phoneType == TelephonyManager.PHONE_TYPE_NONE) {
+        if (Utils.isTablet(this)) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             container = R.id.main_activity_bottom_container
         } else {
