@@ -241,7 +241,7 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
         }
         supportFragmentManager
             .beginTransaction()
-            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left)
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_right, R.anim.exit_to_left)
             .replace(container, individualFragment, Constants.ROOT_FRAGMENT_TAG)
             .addToBackStack(null)
             .commitAllowingStateLoss()
