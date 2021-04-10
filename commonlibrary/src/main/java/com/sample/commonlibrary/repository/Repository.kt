@@ -19,7 +19,7 @@ class Repository(private val callbacks: Callbacks) {
 
     private val charactersService: APIInterface = APIClient.client
 
-    fun getCharacters(showMeanings: (characters: List<Character>) -> Unit) {
+    fun getCharacters(showCharacters: (characters: List<Character>) -> Unit) {
         var disposable: Disposable? = null
         val url = Constants.TARGET_URL.toHttpUrlOrNull()
         url?.let {
@@ -29,17 +29,13 @@ class Repository(private val callbacks: Callbacks) {
                 .timeout(15L, TimeUnit.SECONDS)
                 .subscribe({ header ->
                     disposable?.dispose()
-                    showMeanings(header.relatedTopics)
+                    showCharacters(header.relatedTopics)
                 },
-                    { throwable ->
-                        disposable?.dispose()
-                        showMeanings(listOf())
-                        getCharactersFailure(
-                            callbacks.fetchActivity(),
-                            "getCharacters",
-                            throwable
-                        )
-                    })
+                { throwable ->
+                    disposable?.dispose()
+                    showCharacters(listOf())
+                    getCharactersFailure(callbacks.fetchActivity(),"getCharacters", throwable)
+                })
         }
     }
 

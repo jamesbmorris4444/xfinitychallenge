@@ -52,7 +52,7 @@ class CharactersAdapter(private val callbacks: Callbacks) : RecyclerViewFilterAd
 
     override fun onBindViewHolder(holder: ItemViewHolder<Character, CharactersItemViewModel>, position: Int) {
         super.onBindViewHolder(holder, position)
-        (holder.itemView.characters_item_root_view as ConstraintLayout).tag = position
+        (holder.itemView.characters_item_root_view as ConstraintLayout).tag = itemList[position]
         if (position % 2 == 1) {
             holder.itemView.setBackgroundColor(Color.parseColor(uiViewModel.recyclerViewAlternatingColor1))
         } else {

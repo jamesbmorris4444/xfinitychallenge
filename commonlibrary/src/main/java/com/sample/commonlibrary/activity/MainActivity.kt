@@ -296,16 +296,6 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
             setupToolbar()
             true
         }
-        R.id.action_set_up_sort -> {
-            uiViewModel.sortThumbsUp = true
-            setToolbarThumbStatus(R.drawable.ic_thumbsup_dark)
-            true
-        }
-        R.id.action_set_down_sort -> {
-            uiViewModel.sortThumbsUp = false
-            setToolbarThumbStatus(R.drawable.ic_thumbsdown_dark)
-            true
-        }
         else -> {
             super.onOptionsItemSelected(item)
         }
@@ -313,8 +303,6 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
-        thumbsStatusMenuItem = menu.findItem(R.id.thumb_status)
-        setToolbarThumbStatus(R.drawable.ic_thumbsup_dark)
         return true
     }
 

@@ -12,7 +12,7 @@
     <string name="std_modal_ok">OK</string>
 
     <!-- button name text -->
-    <string name="button_search">Filter</string>
+    <string name="button_search">Load</string>
 
     <!-- miscellaneous -->
     <string name="search_no_elements">No characters found</string>

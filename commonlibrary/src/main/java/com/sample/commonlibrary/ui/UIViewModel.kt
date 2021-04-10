@@ -193,7 +193,6 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
     lateinit var primaryColor: String
     lateinit var secondaryColor: String
     lateinit var toolbarTextColor: String
-    var sortThumbsUp = true
 
     init {
         DaggerMapperDependencyInjector.builder()

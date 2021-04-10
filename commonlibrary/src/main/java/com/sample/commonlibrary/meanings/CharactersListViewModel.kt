@@ -1,6 +1,8 @@
 package com.sample.commonlibrary.characters
 
 import android.app.Application
+import android.content.Context
+import android.telephony.TelephonyManager
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.fragment.app.FragmentManager
@@ -20,6 +22,7 @@ import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
 import com.sample.commonlibrary.utils.Utils
 import com.sample.commonlibrary.utils.ViewModelInjectorModule
 import com.spample.commonlibrary.recyclerview.RecyclerViewViewModel
+import java.util.*
 import javax.inject.Inject
 
 class CharactersListViewModelFactory(private val callbacks: Callbacks) : ViewModelProvider.Factory {
@@ -81,7 +84,8 @@ class CharactersListViewModel(private val callbacks: Callbacks) : RecyclerViewVi
     var hintTextName: ObservableField<String> = ObservableField(getApplication<Application>().applicationContext.getString(R.string.characters_hint_text))
     var editTextNameVisibility: ObservableField<Int> = ObservableField(View.VISIBLE)
 
-    fun onSearchClicked(view: View) {
+    fun onLoadDataClicked(view: View) {
+        editTextNameInput.set("")
         val enteredText: String = editTextNameInput.get() ?: ""
         if (enteredText == "s") {
             callbacks.fetchActivity().startPretendLongRunningTask()
@@ -112,8 +116,8 @@ class CharactersListViewModel(private val callbacks: Callbacks) : RecyclerViewVi
         allCharacters = characters
     }
     fun onElementClicked(view: View) {
-        val position = view.tag as Int
-        callbacks.fetchActivity().loadIndividualFragment(basename(allCharacters[position].firstUrl), "${Constants.BASE}${allCharacters[position].icon.url}", strip(allCharacters[position].result))
+        val character = view.tag as Character
+        callbacks.fetchActivity().loadIndividualFragment(basename(character.firstUrl), "${Constants.BASE}${character.icon.url}", strip(character.result))
     }
 
     private fun basename(path: String): String {
@@ -127,7 +131,12 @@ class CharactersListViewModel(private val callbacks: Callbacks) : RecyclerViewVi
     }
 
     fun backPressed() {
-        callbacks.fetchActivity().supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        val manager = callbacks.fetchActivity().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        if (Objects.requireNonNull(manager).phoneType == TelephonyManager.PHONE_TYPE_NONE) {
+            callbacks.fetchActivity().onBackPressed()
+        } else {
+            callbacks.fetchActivity().supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        }
     }
 
 }

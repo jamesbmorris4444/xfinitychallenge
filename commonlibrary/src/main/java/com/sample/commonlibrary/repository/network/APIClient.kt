@@ -19,7 +19,7 @@ object APIClient {
                     ), String.format("okHttp logging interceptor=%s", message))
                 }
             })
-            interceptor.level = HttpLoggingInterceptor.Level.BODY  // BASIC or BODY
+            interceptor.level = HttpLoggingInterceptor.Level.BASIC  // BASIC or BODY
             val client = OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .build()

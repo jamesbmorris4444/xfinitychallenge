@@ -91,7 +91,7 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="@{individualViewModel.descText}"
-            android:textColor="@color/white"
+            app:text_color="@{uiViewModel.charactersItemTextColor}"
             android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@+id/bottom_barrier"
             app:layout_constraintLeft_toLeftOf="parent"

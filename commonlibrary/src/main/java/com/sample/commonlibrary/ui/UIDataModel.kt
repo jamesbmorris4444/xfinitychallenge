@@ -175,9 +175,9 @@ class UIDataModel {
                         "largeText",
 
                         "white",
-                        "largeText",
-                        "success",
-                        "mainTitleBold",
+                        "largeTextBold",
+                        "cyan",
+                        "largeTextBold",
                         "cyan",
 
                         "error",
