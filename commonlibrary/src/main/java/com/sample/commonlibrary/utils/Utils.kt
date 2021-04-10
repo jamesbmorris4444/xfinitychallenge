@@ -3,7 +3,7 @@ package com.sample.commonlibrary.utils
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.sample.commonlibrary.repository.storage.Meaning
+import com.sample.commonlibrary.repository.storage.Character
 
 class Utils {
 
@@ -20,16 +20,16 @@ class Utils {
             inputManager.showSoftInput(view, InputMethodManager.SHOW_FORCED)
         }
 
-        fun donorComparisonByThumbsUp(meaning: Meaning): Int {
+        fun donorComparisonByThumbsUp(character: Character): Int {
             return 0
         }
 
-        fun donorComparisonByThumbsDown(meaning: Meaning): Int {
+        fun donorComparisonByThumbsDown(character: Character): Int {
             return 0
         }
 
-        fun stargazerComparison(meaning: Meaning): String {
-            return meaning.result
+        fun stargazerComparison(character: Character): String {
+            return character.result
         }
 
         fun newPatternOfSubpatterns(patternOfSubpatterns: String, index: Int, newPattern: String): String {

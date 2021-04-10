@@ -10,8 +10,8 @@
             type="com.sample.commonlibrary.ui.UIViewModel" />
 
         <variable
-            name="meaningsListViewModel"
-            type="com.sample.commonlibrary.meanings.MeaningsListViewModel" />
+            name="charactersListViewModel"
+            type="com.sample.commonlibrary.characters.CharactersListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,12 +25,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
-                android:hint="@{meaningsListViewModel.hintTextName}"
+                android:hint="@{charactersListViewModel.hintTextName}"
                 app:text_font_text_input_layout="@{uiViewModel.editTextTypeface}"
                 app:unfocused_edit_text_hint_color="@{uiViewModel.editTextLowerHintColor}"
                 app:focused_upper_text_hint_color="@{uiViewModel.editTextUpperHintColor}"
                 app:layout_marginLeft="@{safeUnbox(uiViewModel.standardLeftAndRightMargin)}"
-                android:visibility="@{safeUnbox(meaningsListViewModel.editTextNameVisibility)}"
+                android:visibility="@{safeUnbox(charactersListViewModel.editTextNameVisibility)}"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/submit_button_icon"
@@ -42,8 +42,8 @@
                     android:layout_height="wrap_content"
                     app:layout_height_dynamic="@{safeUnbox(uiViewModel.standardEditTextHeight)}"
                     app:layout_width_dynamic="@{safeUnbox(uiViewModel.standardWidthWithButton)}"
-                    android:text="@={meaningsListViewModel.editTextNameInput}"
-                    android:onTextChanged="@{meaningsListViewModel::onTextNameChanged}"
+                    android:text="@={charactersListViewModel.editTextNameInput}"
+                    android:onTextChanged="@{charactersListViewModel::onTextNameChanged}"
                     android:paddingStart="10dp"
                     android:paddingEnd="0dp"
                     android:paddingTop="20dp"
@@ -65,11 +65,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@{uiViewModel.buttonDrawable}"
-                android:onClick="@{(view) -> meaningsListViewModel.onSearchClicked(view)}"
+                android:onClick="@{(view) -> charactersListViewModel.onSearchClicked(view)}"
                 app:layout_width_dynamic="@{safeUnbox(uiViewModel.standardButtonWidth)}"
                 app:layout_height_dynamic="@{safeUnbox(uiViewModel.standardButtonHeight)}"
                 app:layout_marginRight="@{safeUnbox(uiViewModel.standardLeftAndRightMargin)}"
-                android:visibility="@{meaningsListViewModel.submitVisible}"
+                android:visibility="@{charactersListViewModel.submitVisible}"
                 app:layout_constraintBottom_toBottomOf="@+id/edit_text_input_name"
                 app:layout_constraintLeft_toRightOf="@+id/edit_text_input_name"
                 app:layout_constraintRight_toRightOf="parent"/>
@@ -82,7 +82,7 @@
                 app:text_font="@{uiViewModel.buttonTextTypeface}"
                 app:text_color="@{uiViewModel.buttonTextColor}"
                 app:text_size="@{safeUnbox(uiViewModel.buttonTextSize)}"
-                android:visibility="@{meaningsListViewModel.submitVisible}"
+                android:visibility="@{charactersListViewModel.submitVisible}"
                 app:layout_constraintStart_toStartOf="@+id/submit_button_icon"
                 app:layout_constraintEnd_toEndOf="@+id/submit_button_icon"
                 app:layout_constraintTop_toTopOf="@+id/submit_button_icon"
@@ -106,10 +106,10 @@
                 android:id="@+id/donorsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="@{meaningsListViewModel.listIsVisible}"
+                android:visibility="@{charactersListViewModel.listIsVisible}"
                 android:paddingBottom="200dp"
                 android:clipToPadding="false"
-                app:recyclerViewViewModel="@{meaningsListViewModel}"
+                app:recyclerViewViewModel="@{charactersListViewModel}"
                 app:layout_constraintTop_toBottomOf="@+id/top_divider"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
@@ -119,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/search_no_elements"
-                android:visibility="@{meaningsListViewModel.errorIsVisible}"
+                android:visibility="@{charactersListViewModel.errorIsVisible}"
                 android:layout_marginTop="80dp"
                 app:text_font="@{uiViewModel.largeErrorTextTypeface}"
                 app:text_color="@{uiViewModel.largeErrorTextColor}"
@@ -137,14 +137,14 @@
             android:id="@+id/sign_in_visibility_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{meaningsListViewModel.searchVisibility}"
+            android:visibility="@{charactersListViewModel.searchVisibility}"
             app:constraint_referenced_ids="top_divider,submit_button_text,submit_button_icon,edit_text_input_name" />
 
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{meaningsListViewModel.webVisibility}"
+            android:visibility="@{charactersListViewModel.webVisibility}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -9,5 +9,5 @@ import retrofit2.http.Url
 
 interface APIInterface {
     @GET
-    fun getMeanings(@Url page: HttpUrl): Flowable<Header>
+    fun getCharacters(@Url page: HttpUrl): Flowable<Header>
 }

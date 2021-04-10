@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Meaning(
+data class Character(
 
     @SerializedName(value = "FirstURL") var firstUrl: String,
     @SerializedName(value = "Icon") var icon: Icon,
@@ -28,6 +28,6 @@ data class Header(
     @SerializedName(value = "Abstract") var abstract: String,
     @SerializedName(value = "AbstractSource") var abstractSource: String,
     @SerializedName(value = "AbstractText") var abstractText: String,
-    @SerializedName(value = "RelatedTopics") var relatedTopics: List<Meaning>
+    @SerializedName(value = "RelatedTopics") var relatedTopics: List<Character>
 
 ) : Parcelable

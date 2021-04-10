@@ -1,4 +1,4 @@
-package com.sample.commonlibrary.meanings
+package com.sample.commonlibrary.characters
 
 import android.app.Application
 import android.view.View
@@ -13,7 +13,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.sample.commonlibrary.activity.Callbacks
 import com.sample.commonlibrary.activity.R
 import com.sample.commonlibrary.repository.Repository
-import com.sample.commonlibrary.repository.storage.Meaning
+import com.sample.commonlibrary.repository.storage.Character
 import com.sample.commonlibrary.ui.UIViewModel
 import com.sample.commonlibrary.utils.Constants
 import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
@@ -22,22 +22,22 @@ import com.sample.commonlibrary.utils.ViewModelInjectorModule
 import com.spample.commonlibrary.recyclerview.RecyclerViewViewModel
 import javax.inject.Inject
 
-class MeaningsListViewModelFactory(private val callbacks: Callbacks) : ViewModelProvider.Factory {
+class CharactersListViewModelFactory(private val callbacks: Callbacks) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MeaningsListViewModel(callbacks) as T
+        return CharactersListViewModel(callbacks) as T
     }
 }
 
-class MeaningsListViewModel(private val callbacks: Callbacks) : RecyclerViewViewModel(callbacks.fetchActivity().application) {
+class CharactersListViewModel(private val callbacks: Callbacks) : RecyclerViewViewModel(callbacks.fetchActivity().application) {
 
-    override var adapter: MeaningsAdapter = MeaningsAdapter(callbacks)
+    override var adapter: CharactersAdapter = CharactersAdapter(callbacks)
     override val itemDecorator: RecyclerView.ItemDecoration? = null
     val listIsVisible: ObservableField<Int> = ObservableField(View.VISIBLE)
     val errorIsVisible: ObservableField<Int> = ObservableField(View.GONE)
     val submitVisible: ObservableField<Int> = ObservableField(View.GONE)
     val searchVisibility: ObservableField<Int> = ObservableField(View.VISIBLE)
     val webVisibility: ObservableField<Int> = ObservableField(View.GONE)
-    private lateinit var allMeanings: List<Meaning>
+    private lateinit var allCharacters: List<Character>
 
     @Inject
     lateinit var uiViewModel: UIViewModel
@@ -78,7 +78,7 @@ class MeaningsListViewModel(private val callbacks: Callbacks) : RecyclerViewView
         adapter.filter.filter(key)
         // within "string", the "count" characters beginning at index "start" have just replaced old text that had length "before"
     }
-    var hintTextName: ObservableField<String> = ObservableField(getApplication<Application>().applicationContext.getString(R.string.meanings_hint_text))
+    var hintTextName: ObservableField<String> = ObservableField(getApplication<Application>().applicationContext.getString(R.string.characters_hint_text))
     var editTextNameVisibility: ObservableField<Int> = ObservableField(View.VISIBLE)
 
     fun onSearchClicked(view: View) {
@@ -93,32 +93,27 @@ class MeaningsListViewModel(private val callbacks: Callbacks) : RecyclerViewView
             Utils.hideKeyboard(view)
             val progressBar = callbacks.fetchActivity().getMainProgressBar()
             progressBar.visibility = View.VISIBLE
-            repository.getUrbanDictionaryMeanings(this::showMeanings)
+            repository.getCharacters(this::showCharacters)
         }
     }
 
-    private fun showMeanings(meanings: List<Meaning>) {
+    private fun showCharacters(characters: List<Character>) {
         val progressBar = callbacks.fetchActivity().getMainProgressBar()
         progressBar.visibility = View.GONE
-        if (meanings.isEmpty()) {
+        if (characters.isEmpty()) {
             listIsVisible.set(View.GONE)
             errorIsVisible.set(View.VISIBLE)
         } else {
             listIsVisible.set(View.VISIBLE)
             errorIsVisible.set(View.GONE)
-//            val fullList = meanings.sortedByDescending { meaning -> Utils.stargazerComparison(meaning) }
-//            val smallList: MutableList<Meaning> = mutableListOf()
-//            for (index in 0 until kotlin.math.min(fullList.size, 3)) {
-//                smallList.add(fullList[index])
-//            }
-            adapter.addAll(meanings)
+            adapter.addAll(characters)
             submitVisible.set(View.GONE)
         }
-        allMeanings = meanings
+        allCharacters = characters
     }
     fun onElementClicked(view: View) {
         val position = view.tag as Int
-        callbacks.fetchActivity().loadIndividualFragment(basename(allMeanings[position].firstUrl), "${Constants.BASE}${allMeanings[position].icon.url}", strip(allMeanings[position].result))
+        callbacks.fetchActivity().loadIndividualFragment(basename(allCharacters[position].firstUrl), "${Constants.BASE}${allCharacters[position].icon.url}", strip(allCharacters[position].result))
     }
 
     private fun basename(path: String): String {

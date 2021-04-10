@@ -13,8 +13,8 @@ import com.sample.commonlibrary.activity.Callbacks
 import com.sample.commonlibrary.activity.MainActivity
 import com.sample.commonlibrary.activity.R
 import com.sample.commonlibrary.activity.databinding.IndividualFragmentBinding
+import com.sample.commonlibrary.characters.CharactersListViewModel
 import com.sample.commonlibrary.logger.LogUtils
-import com.sample.commonlibrary.meanings.MeaningsListViewModel
 import com.sample.commonlibrary.ui.UIViewModel
 import com.sample.commonlibrary.utils.Constants
 import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
@@ -54,7 +54,7 @@ class IndividualFragment : Fragment(), Callbacks {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).toolbar.title = Constants.URBANDICT_TITLE
+        (activity as MainActivity).toolbar.title = Constants.CHARACTERS_TITLE
         individualViewModel.initialize(binding.root)
     }
 
@@ -99,8 +99,8 @@ class IndividualFragment : Fragment(), Callbacks {
         return binding.root
     }
 
-    override fun fetchMeaningsListViewModel() : MeaningsListViewModel {
-        return MeaningsListViewModel(this)
+    override fun fetchCharactersListViewModel() : CharactersListViewModel {
+        return CharactersListViewModel(this)
     }
 
     override fun fetchIndividualViewModel() : IndividualViewModel {

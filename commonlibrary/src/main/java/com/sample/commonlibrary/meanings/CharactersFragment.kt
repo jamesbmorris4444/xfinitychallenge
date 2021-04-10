@@ -1,4 +1,4 @@
-package com.sample.commonlibrary.meanings
+package com.sample.commonlibrary.characters
 
 import android.content.Context
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.sample.commonlibrary.activity.Callbacks
 import com.sample.commonlibrary.activity.MainActivity
 import com.sample.commonlibrary.activity.R
-import com.sample.commonlibrary.activity.databinding.MeaningsFragmentBinding
+import com.sample.commonlibrary.activity.databinding.CharactersFragmentBinding
 import com.sample.commonlibrary.individual.IndividualViewModel
 import com.sample.commonlibrary.ui.UIViewModel
 import com.sample.commonlibrary.utils.Constants
@@ -21,15 +21,15 @@ import com.sample.commonlibrary.utils.ViewModelInjectorModule
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MeaningsFragment : Fragment(), Callbacks {
+class CharactersFragment : Fragment(), Callbacks {
 
-    lateinit var meaningsListViewModel: MeaningsListViewModel
-    private lateinit var binding: MeaningsFragmentBinding
+    lateinit var charactersListViewModel: CharactersListViewModel
+    private lateinit var binding: CharactersFragmentBinding
     private lateinit var mainActivity: MainActivity
 
     companion object {
-        fun newInstance(): MeaningsFragment {
-            return MeaningsFragment()
+        fun newInstance(): CharactersFragment {
+            return CharactersFragment()
         }
     }
 
@@ -46,15 +46,15 @@ class MeaningsFragment : Fragment(), Callbacks {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).toolbar.title = Constants.URBANDICT_TITLE
-        meaningsListViewModel.initialize(binding.root)
+        (activity as MainActivity).toolbar.title = Constants.CHARACTERS_TITLE
+        charactersListViewModel.initialize(binding.root)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, R.layout.meanings_fragment, container, false) as MeaningsFragmentBinding
+        binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, R.layout.characters_fragment, container, false) as CharactersFragmentBinding
         binding.lifecycleOwner = this
-        meaningsListViewModel = ViewModelProvider(this, MeaningsListViewModelFactory(this)).get(MeaningsListViewModel::class.java)
-        binding.meaningsListViewModel = meaningsListViewModel
+        charactersListViewModel = ViewModelProvider(this, CharactersListViewModelFactory(this)).get(CharactersListViewModel::class.java)
+        binding.charactersListViewModel = charactersListViewModel
         binding.uiViewModel = uiViewModel
         uiViewModel.currentTheme = (activity as MainActivity).currentTheme
         return binding.root
@@ -82,8 +82,8 @@ class MeaningsFragment : Fragment(), Callbacks {
         return binding.root
     }
 
-    override fun fetchMeaningsListViewModel() : MeaningsListViewModel {
-        return meaningsListViewModel
+    override fun fetchCharactersListViewModel() : CharactersListViewModel {
+        return charactersListViewModel
     }
 
     override fun fetchIndividualViewModel() : IndividualViewModel {

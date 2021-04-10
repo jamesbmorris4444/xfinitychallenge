@@ -7,13 +7,13 @@
                 name="uiViewModel"
                 type="com.sample.commonlibrary.ui.UIViewModel" />
         <variable
-                name="meaningsItemViewModel"
-                type="com.sample.commonlibrary.meanings.MeaningsItemViewModel" />
+                name="charactersItemViewModel"
+                type="com.sample.commonlibrary.characters.CharactersItemViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/meanings_item_root_view"
-        android:onClick="@{(view) -> meaningsItemViewModel.onElementClicked(view)}"
+        android:id="@+id/characters_item_root_view"
+        android:onClick="@{(view) -> charactersItemViewModel.onElementClicked(view)}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -22,10 +22,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@{meaningsItemViewModel.firstUrl}"
-            app:text_font="@{uiViewModel.meaningsItemTextTypeface}"
-            app:text_color="@{uiViewModel.meaningsItemTextColor}"
-            app:text_size="@{safeUnbox(uiViewModel.meaningsItemTextSize)}"
+            android:text="@{charactersItemViewModel.firstUrl}"
+            app:text_font="@{uiViewModel.charactersItemTextTypeface}"
+            app:text_color="@{uiViewModel.charactersItemTextColor}"
+            app:text_size="@{safeUnbox(uiViewModel.charactersItemTextSize)}"
             app:layout_marginLeft="@{safeUnbox(uiViewModel.standardLeftAndRightMargin)}"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="@{meaningsItemViewModel.result}"
+            android:text="@{charactersItemViewModel.result}"
             app:text_font="@{uiViewModel.wordItemTextTypeface}"
             app:text_color="@{uiViewModel.wordItemTextColor}"
             app:text_size="@{safeUnbox(uiViewModel.wordItemTextSize)}"

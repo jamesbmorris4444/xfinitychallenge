@@ -6,7 +6,7 @@ import com.sample.commonlibrary.logger.LogUtils
 import com.sample.commonlibrary.modal.StandardModal
 import com.sample.commonlibrary.repository.network.APIClient
 import com.sample.commonlibrary.repository.network.APIInterface
-import com.sample.commonlibrary.repository.storage.Meaning
+import com.sample.commonlibrary.repository.storage.Character
 import com.sample.commonlibrary.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -17,13 +17,13 @@ import java.util.concurrent.TimeUnit
 
 class Repository(private val callbacks: Callbacks) {
 
-    private val meaningsService: APIInterface = APIClient.client
+    private val charactersService: APIInterface = APIClient.client
 
-    fun getUrbanDictionaryMeanings(showMeanings: (meanings: List<Meaning>) -> Unit) {
+    fun getCharacters(showMeanings: (characters: List<Character>) -> Unit) {
         var disposable: Disposable? = null
         val url = Constants.TARGET_URL.toHttpUrlOrNull()
         url?.let {
-            disposable = meaningsService.getMeanings(it)
+            disposable = charactersService.getCharacters(it)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .timeout(15L, TimeUnit.SECONDS)
@@ -34,16 +34,16 @@ class Repository(private val callbacks: Callbacks) {
                     { throwable ->
                         disposable?.dispose()
                         showMeanings(listOf())
-                        getUrbanDictionaryMeaningsFailure(
+                        getCharactersFailure(
                             callbacks.fetchActivity(),
-                            "getUrbanDictionaryMeanings",
+                            "getCharacters",
                             throwable
                         )
                     })
         }
     }
 
-    private fun getUrbanDictionaryMeaningsFailure(
+    private fun getCharactersFailure(
         activity: MainActivity,
         method: String,
         throwable: Throwable
@@ -52,8 +52,8 @@ class Repository(private val callbacks: Callbacks) {
         StandardModal(
             activity,
             modalType = StandardModal.ModalType.STANDARD,
-            titleText = activity.getString(R.string.std_modal_urban_dictionary_failure_title),
-            bodyText = activity.getString(R.string.std_modal_urban_dictionary_failure_body),
+            titleText = activity.getString(R.string.std_modal_characters_failure_title),
+            bodyText = activity.getString(R.string.std_modal_characters_failure_body),
             positiveText = activity.getString(R.string.std_modal_ok),
             dialogFinishedListener = object : StandardModal.DialogFinishedListener {
                 override fun onPositive(string: String) {}

@@ -1,18 +1,18 @@
-package com.sample.commonlibrary.meanings
+package com.sample.commonlibrary.characters
 
 import android.view.View
 import androidx.databinding.ObservableField
 import com.sample.commonlibrary.activity.Callbacks
 import com.sample.commonlibrary.recyclerview.RecyclerViewItemViewModel
-import com.sample.commonlibrary.repository.storage.Meaning
+import com.sample.commonlibrary.repository.storage.Character
 
 
-class MeaningsItemViewModel(private val callbacks: Callbacks) : RecyclerViewItemViewModel<Meaning>() {
+class CharactersItemViewModel(private val callbacks: Callbacks) : RecyclerViewItemViewModel<Character>() {
 
     val firstUrl: ObservableField<String> = ObservableField("")
     val result: ObservableField<String> = ObservableField("")
 
-    override fun setItem(item: Meaning) {
+    override fun setItem(item: Character) {
         firstUrl.set("Name: ${basename(item.firstUrl)}")
         result.set(strip(item.result))
     }
@@ -28,7 +28,7 @@ class MeaningsItemViewModel(private val callbacks: Callbacks) : RecyclerViewItem
     }
 
     fun onElementClicked(view: View) {
-        callbacks.fetchMeaningsListViewModel().onElementClicked(view)
+        callbacks.fetchCharactersListViewModel().onElementClicked(view)
     }
 
 }

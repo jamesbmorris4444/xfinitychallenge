@@ -24,6 +24,7 @@ class MainWireActivity : MainActivity(), Callbacks, ServiceCallbacks {
             Constants.IMAGE_WIDTH = 800
             Constants.IMAGE_HEIGHT = 600
         }
+        Constants.CHARACTERS_TITLE = "The Wire Characters"
         super.onCreate(savedInstanceState)
     }
 }

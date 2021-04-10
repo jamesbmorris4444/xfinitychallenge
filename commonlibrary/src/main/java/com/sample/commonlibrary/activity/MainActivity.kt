@@ -26,11 +26,11 @@ import androidx.databinding.ObservableField
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.sample.commonlibrary.activity.databinding.ActivityMainBinding
+import com.sample.commonlibrary.characters.CharactersFragment
+import com.sample.commonlibrary.characters.CharactersListViewModel
 import com.sample.commonlibrary.individual.IndividualFragment
 import com.sample.commonlibrary.individual.IndividualViewModel
 import com.sample.commonlibrary.logger.LogUtils
-import com.sample.commonlibrary.meanings.MeaningsFragment
-import com.sample.commonlibrary.meanings.MeaningsListViewModel
 import com.sample.commonlibrary.repository.Repository
 import com.sample.commonlibrary.services.LongRunningService
 import com.sample.commonlibrary.services.ServiceCallbacks
@@ -54,7 +54,7 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
     private lateinit var lottieBackgroundView: LottieAnimationView
     private lateinit var activityMainBinding: ActivityMainBinding
     private var thumbsStatusMenuItem: MenuItem? = null
-    private lateinit var meaningsFragment: MeaningsFragment
+    private lateinit var charactersFragment: CharactersFragment
     private lateinit var individualFragment: IndividualFragment
     val imageHeight: ObservableField<Int> = ObservableField(0)
 
@@ -79,7 +79,7 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
         setTabletScreens()
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener { meaningsFragment.meaningsListViewModel.backPressed() }
+        toolbar.setNavigationOnClickListener { charactersFragment.charactersListViewModel.backPressed() }
         lottieBackgroundView = main_background_lottie
         loadInitialFragment()
         val settings = getSharedPreferences("THEME", Context.MODE_PRIVATE)
@@ -211,7 +211,7 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
     }
 
     private fun loadMeaningsFragment() {
-        meaningsFragment = MeaningsFragment.newInstance()
+        charactersFragment = CharactersFragment.newInstance()
         val container: Int
         val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         if (Objects.requireNonNull(manager).phoneType == TelephonyManager.PHONE_TYPE_NONE) {
@@ -227,7 +227,7 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left)
-            .replace(container, meaningsFragment, Constants.ROOT_FRAGMENT_TAG)
+            .replace(container, charactersFragment, Constants.ROOT_FRAGMENT_TAG)
             .commitAllowingStateLoss()
     }
 
@@ -326,7 +326,8 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
         return activityMainBinding.root
     }
 
-    override fun fetchMeaningsListViewModel() : MeaningsListViewModel { return MeaningsListViewModel(
+    override fun fetchCharactersListViewModel() : CharactersListViewModel {
+        return CharactersListViewModel(
         this
     ) }
 

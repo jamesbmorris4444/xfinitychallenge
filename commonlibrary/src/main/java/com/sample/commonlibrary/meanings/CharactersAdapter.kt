@@ -1,4 +1,4 @@
-package com.sample.commonlibrary.meanings
+package com.sample.commonlibrary.characters
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -8,17 +8,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import com.sample.commonlibrary.activity.Callbacks
 import com.sample.commonlibrary.activity.R
-import com.sample.commonlibrary.activity.databinding.MeaningsListItemBinding
+import com.sample.commonlibrary.activity.databinding.CharactersListItemBinding
 import com.sample.commonlibrary.recyclerview.RecyclerViewFilterAdapter
-import com.sample.commonlibrary.repository.storage.Meaning
+import com.sample.commonlibrary.repository.storage.Character
 import com.sample.commonlibrary.ui.UIViewModel
 import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
 import com.sample.commonlibrary.utils.ViewModelInjectorModule
-import kotlinx.android.synthetic.main.meanings_list_item.view.*
+import kotlinx.android.synthetic.main.characters_list_item.view.*
 import javax.inject.Inject
 
 
-class MeaningsAdapter(private val callbacks: Callbacks) : RecyclerViewFilterAdapter<Meaning, MeaningsItemViewModel>() {
+class CharactersAdapter(private val callbacks: Callbacks) : RecyclerViewFilterAdapter<Character, CharactersItemViewModel>() {
 
     private var adapterFilter: AdapterFilter? = null
 
@@ -39,20 +39,20 @@ class MeaningsAdapter(private val callbacks: Callbacks) : RecyclerViewFilterAdap
         return AdapterFilter()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeaningsViewHolder {
-        val meaningsListItemBinding: MeaningsListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.meanings_list_item, parent, false)
-        val meaningsItemViewModel = MeaningsItemViewModel(callbacks)
-        meaningsListItemBinding.meaningsItemViewModel = meaningsItemViewModel
-        meaningsListItemBinding.uiViewModel = uiViewModel
-        return MeaningsViewHolder(meaningsListItemBinding.root, meaningsItemViewModel, meaningsListItemBinding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder {
+        val charactersListItemBinding: CharactersListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.characters_list_item, parent, false)
+        val charactersItemViewModel = CharactersItemViewModel(callbacks)
+        charactersListItemBinding.charactersItemViewModel = charactersItemViewModel
+        charactersListItemBinding.uiViewModel = uiViewModel
+        return CharactersViewHolder(charactersListItemBinding.root, charactersItemViewModel, charactersListItemBinding)
     }
 
-    inner class MeaningsViewHolder internal constructor(itemView: View, viewModel: MeaningsItemViewModel, viewDataBinding: MeaningsListItemBinding) :
-        ItemViewHolder<Meaning, MeaningsItemViewModel> (itemView, viewModel, viewDataBinding)
+    inner class CharactersViewHolder internal constructor(itemView: View, viewModel: CharactersItemViewModel, viewDataBinding: CharactersListItemBinding) :
+        ItemViewHolder<Character, CharactersItemViewModel> (itemView, viewModel, viewDataBinding)
 
-    override fun onBindViewHolder(holder: ItemViewHolder<Meaning, MeaningsItemViewModel>, position: Int) {
+    override fun onBindViewHolder(holder: ItemViewHolder<Character, CharactersItemViewModel>, position: Int) {
         super.onBindViewHolder(holder, position)
-        (holder.itemView.meanings_item_root_view as ConstraintLayout).tag = position
+        (holder.itemView.characters_item_root_view as ConstraintLayout).tag = position
         if (position % 2 == 1) {
             holder.itemView.setBackgroundColor(Color.parseColor(uiViewModel.recyclerViewAlternatingColor1))
         } else {
@@ -60,8 +60,8 @@ class MeaningsAdapter(private val callbacks: Callbacks) : RecyclerViewFilterAdap
         }
     }
 
-    override fun itemFilterable(meaning: Meaning, key: String): Boolean {
-        val name = basename(meaning.firstUrl)
+    override fun itemFilterable(character: Character, key: String): Boolean {
+        val name = basename(character.firstUrl)
         return name.contains(key, true)
     }
 

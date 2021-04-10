@@ -25,7 +25,7 @@ object APIClient {
                 .build()
             val gson = GsonBuilder()
                 .registerTypeAdapter(
-                    Constants.URBANDICT_LIST_CLASS_TYPE,
+                    Constants.CHARACTERS_CLASS_TYPE,
                     MeaningsJsonDeserializer()
                 )
                 .create()

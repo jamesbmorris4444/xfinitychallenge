@@ -3,11 +3,11 @@ package com.sample.commonlibrary.utils
 
 import androidx.lifecycle.ViewModelProvider
 import com.sample.commonlibrary.activity.MainActivity
+import com.sample.commonlibrary.characters.CharactersAdapter
+import com.sample.commonlibrary.characters.CharactersFragment
+import com.sample.commonlibrary.characters.CharactersListViewModel
 import com.sample.commonlibrary.individual.IndividualFragment
 import com.sample.commonlibrary.individual.IndividualViewModel
-import com.sample.commonlibrary.meanings.MeaningsAdapter
-import com.sample.commonlibrary.meanings.MeaningsFragment
-import com.sample.commonlibrary.meanings.MeaningsListViewModel
 import com.sample.commonlibrary.modal.StandardModal
 import com.sample.commonlibrary.repository.Repository
 import com.sample.commonlibrary.ui.UIViewModel
@@ -26,11 +26,11 @@ interface MapperDependencyInjector {
 @Singleton
 @Component(modules = [ViewModelInjectorModule::class])
 interface ViewModelDependencyInjector {
-    fun inject(fragment: MeaningsFragment)
+    fun inject(fragment: CharactersFragment)
     fun inject(modal: StandardModal)
-    fun inject(viewModel: MeaningsListViewModel)
+    fun inject(viewModel: CharactersListViewModel)
     fun inject(activity: MainActivity)
-    fun inject(adapter: MeaningsAdapter)
+    fun inject(adapter: CharactersAdapter)
     fun inject(fragment: IndividualFragment)
     fun inject(viewModel: IndividualViewModel)
 }

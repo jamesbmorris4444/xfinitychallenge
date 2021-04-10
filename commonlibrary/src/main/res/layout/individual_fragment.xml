@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="@{individualViewModel.individualText}"
-            app:text_color="@{uiViewModel.meaningsItemTextColor}"
+            app:text_color="@{uiViewModel.charactersItemTextColor}"
             android:textSize="24sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/top_barrier"

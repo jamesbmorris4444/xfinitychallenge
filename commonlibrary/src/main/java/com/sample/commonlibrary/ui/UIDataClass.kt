@@ -63,8 +63,8 @@ class UIDataClass(
     val buttonTextColor: String,                          // Button text color
     val buttonTextSize: String,                           // Button text size
 
-    val meaningsItemTextColor: String,                    // Meaning item text color
-    val meaningsItemTextSize: String,                     // Meaning item text size
+    val charactersItemTextColor: String,                    // Meaning item text color
+    val charactersItemTextSize: String,                     // Meaning item text size
     val wordItemTextColor: String,                        // Meaning word item text color
     val wordItemTextSize: String,                         // Meaning word item text size
     val definitionItemTextColor: String,                  // Meaning definition item text color
