@@ -142,6 +142,7 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
         val intent = Intent(this, LongRunningService::class.java)
         startService(intent)
         bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        LogUtils.D(TAG, LogUtils.FilterTags.withTags(LogUtils.TagFilter.THM), String.format("onResume"))
         loadCharactersFragment()
     }
 
@@ -214,6 +215,10 @@ open class MainActivity : AppCompatActivity(), Callbacks, ServiceCallbacks {
     }
 
     private fun loadCharactersFragment() {
+        if (Utils.isTablet(this)) {
+            uiViewModel.standardWidthWithButton.set(uiViewModel.computeStandardWidthWithButton())
+            uiViewModel.standardButtonWidth.set(uiViewModel.computeStandarButtonWidth())
+        }
         charactersFragment = CharactersFragment.newInstance()
         val container: Int
         if (Utils.isTablet(this)) {

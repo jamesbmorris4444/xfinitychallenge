@@ -207,8 +207,10 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
         standardGridHeight.set(convertDpToPixels(Constants.STANDARD_GRID_HEIGHT))
         standardEditTextHeight.set(convertDpToPixels(Constants.STANDARD_EDIT_TEXT_HEIGHT))
         standardGridEditTextHeight.set(convertDpToPixels(Constants.STANDARD_GRID_EDIT_TEXT_HEIGHT))
+
         standardWidthWithButton.set(computeStandardWidthWithButton())
         standardButtonWidth.set(computeStandarButtonWidth())
+
         standardLargeButtonWidth.set(computeStandarButtonWidth() * 2)
         standardButtonHeight.set(convertDpToPixels(Constants.STANDARD_BUTTON_HEIGHT))
         standardDialogWidth.set(computeStandardWidth())
@@ -256,7 +258,7 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
         return screenWidth - 2 * convertDpToPixels(Constants.STANDARD_LEFT_AND_RIGHT_MARGIN)
     }
 
-    private fun computeStandardWidthWithButton(): Int {
+    fun computeStandardWidthWithButton(): Int {
         // |<--standard margin-->|<--standard width with button_light-->|<--standard margin-->|<--standard button_light width-->|<--standard margin-->|
         // |<----------------------------------------------------total width------------------------------------------------------------->|
 
@@ -266,7 +268,7 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
         return totalButtonWidth * Constants.EDIT_TEXT_TO_BUTTON_RATIO / (Constants.EDIT_TEXT_TO_BUTTON_RATIO + 1)
     }
 
-    private fun computeStandarButtonWidth(): Int {
+    fun computeStandarButtonWidth(): Int {
         // |<--standard margin-->|<--standard width with button_light-->|<--standard margin-->|<--standard button_light width-->|<--standard margin-->|
         // |<----------------------------------------------------total width------------------------------------------------------------->|
 
@@ -278,7 +280,11 @@ class UIViewModel(val activity: Application) : AndroidViewModel(activity) {
     
     private fun getScreenWidth(): Int {
         return if (Utils.isTablet(getApplication<Application>().applicationContext)) {
-            getApplication<Application>().applicationContext.resources.displayMetrics.widthPixels / 2
+            if (Utils.isPortrait(getApplication<Application>().applicationContext)) {
+                getApplication<Application>().applicationContext.resources.displayMetrics.widthPixels
+            } else {
+                getApplication<Application>().applicationContext.resources.displayMetrics.widthPixels / 2
+            }
         } else {
             getApplication<Application>().applicationContext.resources.displayMetrics.widthPixels
         }
