@@ -14,7 +14,6 @@ import com.sample.commonlibrary.activity.MainActivity
 import com.sample.commonlibrary.activity.R
 import com.sample.commonlibrary.activity.databinding.IndividualFragmentBinding
 import com.sample.commonlibrary.characters.CharactersListViewModel
-import com.sample.commonlibrary.logger.LogUtils
 import com.sample.commonlibrary.ui.UIViewModel
 import com.sample.commonlibrary.utils.Constants
 import com.sample.commonlibrary.utils.DaggerViewModelDependencyInjector
@@ -68,11 +67,6 @@ class IndividualFragment : Fragment(), Callbacks {
         binding.uiViewModel = uiViewModel
         individualViewModel.name = name
         individualViewModel.url = url
-        LogUtils.D(
-            "JIMX",
-            LogUtils.FilterTags.withTags(LogUtils.TagFilter.THM),
-            String.format("three=%s   %s   %s", name, url, description)
-        )
         individualViewModel.description = description
 
         uiViewModel.currentTheme = (activity as MainActivity).currentTheme
